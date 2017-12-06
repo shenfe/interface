@@ -4,14 +4,13 @@ const util = require('./util');
 
 const parseSass = require('./parseSass');
 
-const parse = filePath => {
-    let dirPath = path.dirname(filePath);
+const parse = dirPath => {
     let interfaceName = path.basename(dirPath);
-    let content = util.readFile(filePath);
-    let t = util.matchReg(content, /<slot>([a-zA-Z0-9$_-]+)<\/slot>/mg);
+    let content = util.readFile(path.resolve(dirPath, 'index.html'));
+    let slotMatches = util.matchReg(content, /<slot>([a-zA-Z0-9$_-]+)<\/slot>/mg).matches;
     return {
         interface: interfaceName,
-        slots: t.matches.map(item => ({
+        slots: slotMatches.map(item => ({
             name: item[1],
             text: item[0],
             nodes: []

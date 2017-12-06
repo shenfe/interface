@@ -16,12 +16,17 @@ const parse = filePath => {
     };
 };
 
+const { StringDecoder } = require('string_decoder');
+const decoder = new StringDecoder('utf8');
+
 const stringify = obj => {
     let scss = obj.vars.map(item => `$${item.name}: ${item.value}; /* ${item.type} */`).join('\n') +
         obj.body;
-    return sass.renderSync({
+    let output = decoder.write(sass.renderSync({
         data: scss
-    });
+    }).css);
+    console.log(output);
+    return output;
 };
 
 module.exports = {
