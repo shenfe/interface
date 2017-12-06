@@ -1,16 +1,48 @@
-const parseHtml = require('./parseHtml');
-const parseSass = require('./parseSass');
-
-const fs = require('fs');
 const path = require('path');
 
-const parse = folderPath => {
-    let obj = parseHtml.parse(path.resolve(folderPath, 'index.html'));
-    obj.style = parseSass.parse(path.resolve(folderPath, 'index.scss'));
+const util = require('./util');
+
+const parseSass = require('./parseSass');
+
+const parse = filePath => {
+    let dirPath = path.dirname(filePath);
+    let interfaceName = path.basename(dirPath);
+    let content = util.readFile(filePath);
+    let t = util.matchReg(content, /<slot>([a-zA-Z0-9$_-]+)<\/slot>/mg);
+    return {
+        interface: interfaceName,
+        slots: t.matches.map(item => ({
+            name: item[1],
+            text: item[0],
+            nodes: []
+        })),
+        html: content,
+        style: parseSass.parse(path.resolve(dirPath, 'index.scss'))
+    };
+};
+
+const stringify = (obj, interfaceRecords = {}) => {
+    let html = obj.html;
+    let style = parseSass.stringify(obj.style);
+
+    if (!interfaceRecords[obj.interface]) interfaceRecords[obj.interface] = 0;
+    interfaceRecords[obj.interface]++;
+
+    html = util.replaceAll(html, obj.interface, `${obj.interface}-${interfaceRecords[obj.interface]}`);
+    style = util.replaceAll(style, obj.interface, `${obj.interface}-${interfaceRecords[obj.interface]}`);
+    obj.slots.forEach(item => {
+        let nodes = item.nodes.map(node => stringify(node, interfaceRecords));
+        html = html.replace(item.text, nodes.map(node => node.html).join(''));
+        style += nodes.map(node => node.style).join('\n');
+    });
+
+    return {
+        html,
+        style
+    };
 };
 
 module.exports = {
     parse,
-    parseHtml,
-    parseSass
+    stringify
 };
