@@ -1,0 +1,26 @@
+$padding: 0 4px; /* size_4 */
+$width: 100px; /* size */
+$height: 40px; /* size */
+$fix-width: 40px; /* size */
+
+.i-layout-fix-flex {
+    padding: $padding;
+    width: $width;
+    height: $height;
+}
+
+.i-layout-fix-flex::after {
+    display: block;
+    content: ' ';
+    clear: both;
+    width: 0;
+    height: 0;
+}
+
+.i-layout-fix-flex--fix {
+    float: left;
+    width: $fix-width;
+}
+
+.i-layout-fix-flex--flex {
+}

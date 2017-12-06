@@ -1,11 +1,11 @@
-$padding: 0 4px;
-$height: 40px;
-$title-height: 24px;
-$title-line: 24px;
-$title-font: 16px;
-$sub-height: 16px;
-$sub-line: 16px;
-$sub-font: 12px;
+$padding: 0 4px; /* size_4 */
+$height: 40px; /* size */
+$title-height: 24px; /* size */
+$title-line: 24px; /* size */
+$title-font: 16px; /* size */
+$desc-height: 16px; /* size */
+$desc-line: 16px; /* size */
+$desc-font: 12px; /* size */
 
 .i-combin-title-desc {
     padding: $padding;
@@ -19,7 +19,7 @@ $sub-font: 12px;
 }
 
 .i-combin-title-desc--desc {
-    height: $sub-height;
-    line-height: $sub-line;
-    font-size: $sub-font;
+    height: $desc-height;
+    line-height: $desc-line;
+    font-size: $desc-font;
 }
