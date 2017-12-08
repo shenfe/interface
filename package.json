@@ -2,5 +2,30 @@
   "main": "./src/index.js",
   "devDependencies": {
     "node-sass": "^4.7.2"
-  }
+  },
+  "name": "ui-interface",
+  "description": "",
+  "version": "0.1.0",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "scripts": {
+    "test": "node ./test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shenfe/interface.git"
+  },
+  "keywords": [
+    "component",
+    "interface",
+    "ui"
+  ],
+  "author": "hengwu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shenfe/interface/issues"
+  },
+  "homepage": "https://github.com/shenfe/interface#readme"
 }
