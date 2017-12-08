@@ -4,8 +4,8 @@
     "node-sass": "^4.7.2"
   },
   "name": "ui-interface",
-  "description": "",
-  "version": "0.1.0",
+  "description": "UI interface",
+  "version": "0.1.1",
   "directories": {
     "test": "test"
   },
