@@ -1,6 +1,7 @@
 const fs = require('fs');
 
 const readFile = filePath => {
+    if (!fs.existsSync(filePath)) return null;
     return fs.readFileSync(filePath, 'utf8');
 };
 

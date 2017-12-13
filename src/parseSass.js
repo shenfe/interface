@@ -4,6 +4,7 @@ const sass = require('node-sass');
 
 const parse = filePath => {
     let content = util.readFile(filePath);
+    if (content == null) return null;
     let vars = {};
     let t = util.matchReg(content, /\$([a-zA-Z0-9$_-]+):\s*(.*?);\s*\/\/(.*)/g);
     return {

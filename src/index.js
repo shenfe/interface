@@ -7,6 +7,7 @@ const parseSass = require('./parseSass');
 const parse = dirPath => {
     let interfaceName = path.basename(dirPath);
     let content = util.readFile(path.resolve(dirPath, 'index.html'));
+    if (content == null) return null;
     let slotMatches = util.matchReg(content, /<slot>([0-9a-zA-Z$_-]+)<\/slot>/mg).matches;
     return {
         interface: interfaceName,
