@@ -4,7 +4,7 @@ const util = require('./util');
 
 const parseSass = require('./parseSass');
 
-const parse = dirPath => {
+const parse = (dirPath, options) => {
     let interfaceName = path.basename(dirPath);
     let content = util.readFile(path.resolve(dirPath, 'index.html'));
     if (content == null) return null;
@@ -17,7 +17,7 @@ const parse = dirPath => {
             nodes: []
         })),
         html: content,
-        style: parseSass.parse(path.resolve(dirPath, 'index.scss'))
+        style: parseSass.parse(path.resolve(dirPath, 'index.scss'), options)
     };
 };
 

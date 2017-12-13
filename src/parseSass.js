@@ -2,17 +2,18 @@ const util = require('./util');
 
 const sass = require('node-sass');
 
-const parse = filePath => {
+const parse = (filePath, { converter } = {}) => {
     let content = util.readFile(filePath);
     if (content == null) return null;
     let vars = {};
     let t = util.matchReg(content, /\$([a-zA-Z0-9$_-]+):\s*(.*?);\s*\/\/(.*)/g);
+    let varArr = t.matches.map(item => ({
+        name: item[1],
+        value: item[2],
+        desc: item[3].trim()
+    }));
     return {
-        vars: t.matches.map(item => ({
-            name: item[1],
-            value: item[2],
-            desc: item[3].trim()
-        })),
+        vars: converter ? converter(varArr) : varArr,
         body: content.substr(t.offset)
     };
 };
