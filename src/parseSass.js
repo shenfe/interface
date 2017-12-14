@@ -24,6 +24,7 @@ const decoder = new StringDecoder('utf8');
 const stringify = (obj = {}) => {
     let scss = (obj.vars || []).map(item => `$${item.name}: ${item.value}; // ${item.desc}`).join('\n') +
         (obj.body || '');
+    if (scss.trim() === '') return '';
     let output = decoder.write(sass.renderSync({
         data: scss
     }).css);
