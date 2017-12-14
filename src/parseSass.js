@@ -21,9 +21,9 @@ const parse = (filePath, { converter } = {}) => {
 const { StringDecoder } = require('string_decoder');
 const decoder = new StringDecoder('utf8');
 
-const stringify = obj => {
-    let scss = obj.vars.map(item => `$${item.name}: ${item.value}; // ${item.desc}`).join('\n') +
-        obj.body;
+const stringify = (obj = {}) => {
+    let scss = (obj.vars || []).map(item => `$${item.name}: ${item.value}; // ${item.desc}`).join('\n') +
+        (obj.body || '');
     let output = decoder.write(sass.renderSync({
         data: scss
     }).css);

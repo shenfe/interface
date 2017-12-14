@@ -21,8 +21,8 @@ const parse = (dirPath, options) => {
     };
 };
 
-const stringify = (obj, interfaceRecords = {}) => {
-    let html = obj.html;
+const stringify = (obj = {}, interfaceRecords = {}) => {
+    let html = obj.html || '';
     let style = parseSass.stringify(obj.style);
 
     if (!interfaceRecords[obj.interface]) interfaceRecords[obj.interface] = 0;
@@ -30,7 +30,7 @@ const stringify = (obj, interfaceRecords = {}) => {
 
     html = util.replaceAll(html, obj.interface, `${obj.interface}-${interfaceRecords[obj.interface]}`);
     style = util.replaceAll(style, obj.interface, `${obj.interface}-${interfaceRecords[obj.interface]}`);
-    obj.slots.forEach(item => {
+    (obj.slots || []).forEach(item => {
         let nodes = item.nodes.map(node => stringify(node, interfaceRecords));
         html = html.replace(item.text, nodes.map(node => node.html).join(''));
         style += nodes.map(node => node.style).join('\n');
