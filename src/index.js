@@ -25,11 +25,12 @@ const stringify = (obj = {}, interfaceRecords = {}) => {
     let html = obj.html || '';
     let style = parseSass.stringify(obj.style);
 
-    if (!interfaceRecords[obj.interface]) interfaceRecords[obj.interface] = 0;
-    interfaceRecords[obj.interface]++;
-
-    html = util.replaceAll(html, obj.interface, `${obj.interface}-${interfaceRecords[obj.interface]}`);
-    style = util.replaceAll(style, obj.interface, `${obj.interface}-${interfaceRecords[obj.interface]}`);
+    if (obj.interface) {
+        if (!interfaceRecords[obj.interface]) interfaceRecords[obj.interface] = 0;
+        interfaceRecords[obj.interface]++;
+        html = util.replaceAll(html, obj.interface, `${obj.interface}-${interfaceRecords[obj.interface]}`);
+        style = util.replaceAll(style, obj.interface, `${obj.interface}-${interfaceRecords[obj.interface]}`);
+    }
     (obj.slots || []).forEach(item => {
         let nodes = item.nodes.map(node => stringify(node, interfaceRecords));
         html = html.replace(item.text, nodes.map(node => node.html).join(''));
