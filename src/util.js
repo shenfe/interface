@@ -21,6 +21,10 @@ const matchReg = (string, regexp) => {
     };
 };
 
+const escapeRegStr = function (str) {
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+};
+
 const replaceAll = function (source, search, replacement) {
     return source.split(search).join(replacement);
 };
@@ -28,5 +32,6 @@ const replaceAll = function (source, search, replacement) {
 module.exports = {
     readFile,
     matchReg,
-    replaceAll
+    replaceAll,
+    escapeRegStr
 };

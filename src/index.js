@@ -25,15 +25,19 @@ const stringify = (obj = {}, interfaceRecords = {}) => {
     let html = obj.html || '';
     let style = parseSass.stringify(obj.style);
 
-    if (obj.interface) {
+    if (obj.interface && obj.interface !== '') {
         if (!interfaceRecords[obj.interface]) interfaceRecords[obj.interface] = 0;
         interfaceRecords[obj.interface]++;
-        html = util.replaceAll(html, obj.interface, `${obj.interface}-${interfaceRecords[obj.interface]}`);
+        html = html.replace(new RegExp('class="(.*?)(' + util.escapeRegStr(obj.interface) + ')(.*?)"', 'mg'), function (p0, p1, p2, p3) {
+            return `class="${p1}${obj.interface}-${interfaceRecords[obj.interface]}${p3}"`;
+        });
         style = util.replaceAll(style, obj.interface, `${obj.interface}-${interfaceRecords[obj.interface]}`);
     }
     (obj.slots || []).forEach(item => {
         let nodes = item.nodes.map(node => stringify(node, interfaceRecords));
-        html = html.replace(item.text, nodes.map(node => node.html).join(''));
+        if (nodes.length) {
+            html = html.replace(item.text, nodes.map(node => node.html).join(''));
+        }
         style += nodes.map(node => node.style).join('\n');
     });
 
