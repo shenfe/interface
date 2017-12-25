@@ -5,7 +5,7 @@
   },
   "name": "ui-interface",
   "description": "UI interface",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "directories": {
     "test": "test"
   },
