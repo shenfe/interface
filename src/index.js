@@ -44,7 +44,7 @@ const stringify = (obj = {}, middlewares = [], interfaceRecords = {}) => {
 
     let res = { html, style };
     middlewares.forEach(fn => {
-        res = fn(res);
+        res = fn(res, obj);
     });
     return res;
 };
