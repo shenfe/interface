@@ -21,7 +21,8 @@ const parse = (dirPath, options) => {
     };
 };
 
-const stringify = (obj = {}, interfaceRecords = {}) => {
+const stringify = (obj = {}, middlewares = [], interfaceRecords = {}) => {
+    if (typeof middlewares === 'function') middlewares = [middlewares];
     let html = obj.html || '';
     let style = parseSass.stringify(obj.style);
 
@@ -34,17 +35,18 @@ const stringify = (obj = {}, interfaceRecords = {}) => {
         style = util.replaceAll(style, obj.interface, `${obj.interface}-${interfaceRecords[obj.interface]}`);
     }
     (obj.slots || []).forEach(item => {
-        let nodes = item.nodes.map(node => stringify(node, interfaceRecords));
+        let nodes = item.nodes.map(node => stringify(node, middlewares, interfaceRecords));
         if (nodes.length) {
             html = html.replace(item.text, nodes.map(node => node.html).join(''));
         }
         style += nodes.map(node => node.style).join('\n');
     });
 
-    return {
-        html,
-        style
-    };
+    let res = { html, style };
+    middlewares.forEach(fn => {
+        res = fn(res);
+    });
+    return res;
 };
 
 module.exports = {
