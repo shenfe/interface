@@ -38,6 +38,10 @@ const stringify = (obj = {}, middlewares = [], interfaceRecords = {}) => {
         let nodes = item.nodes.map(node => stringify(node, middlewares, interfaceRecords));
         if (nodes.length) {
             html = html.replace(item.text, nodes.map(node => node.html).join(''));
+        } else {
+            middlewares.forEach(fn => {
+                html = html.replace(item.text, fn({ html: item.text }, item).html);
+            });
         }
         style += nodes.map(node => node.style).join('\n');
     });
